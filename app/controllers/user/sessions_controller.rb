@@ -7,12 +7,12 @@ class User::SessionsController < Devise::SessionsController
   # end
 
   # POST /resource/sign_in
-   def create
-    super do |resource|
-      BackgroundWorker.trigger(resource)
-    end
-  end
-end
+  #  def create
+  #   super do |resource|
+  #     BackgroundWorker.trigger(resource)
+  #   end
+  # end
+
 
   # DELETE /resource/sign_out
   # def destroy
@@ -25,4 +25,4 @@ end
   # def configure_sign_in_params
   #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
   # end
-#end
+end
