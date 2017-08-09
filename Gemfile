@@ -46,6 +46,10 @@
  gem 'figaro', '~> 1.0'
 
  gem 'devise'
+
+ gem 'pundit'
+
+ gem 'faker'
  
  group :development do
    gem 'listen', '~> 3.1.5'
