@@ -1,23 +1,28 @@
+<br/>
 <div class="jumbotron">
-	<h1>Blocipedia</h1>
-	<p>Blocipedia is a resource for sharing links with your friends!</p>
+  <h1>Blocipedia</h1>
+
+  <% if current_user %>
 	<p>
-		<%= link_to "Sign In", new_user_session_path %> or 
-		<%= link_to "Sign Up", new_user_registration_path || new_charge_path, class: "btn btn-primary" %> today!
+	  <%= link_to "Wikis", wikis_path, class: 'btn btn-primary' %>
+  <% else %>
+    <p>
+	  <%= link_to "Sign In", new_user_session_path, class: 'btn btn-primary' %> or 
+	  <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-primary" %>
 	</p>
+  <% end %>
+
 </div>
 
 <div class="row">
-	<div class="col-md-4">
-		<h2>Solves world hunger</h2>
-		<p>Blocipedia will deliver food and water to those in need, all over the world.</p>
+	<div class="col-md-8">
+		<h2>Create Public Wikis</h2>
+		<p>Edit and View public wikis. </br> <%= link_to "Sign Up", new_user_registration_path, class: 'link' %>!</p>
 	</div>
-	<div class="col-md-4">
-		<h2>Eliminates poverty</h2>
-		<p>Blocipedia will deliver money and education to those in need, all over the world.</p>
-	</div>
-	<div class="col-md-4">
-		<h2>Makes you better looking</h2>
-		<p>Blocipedia will make you better looking: it's scientifically proven to make men look like Ryan Gosling and women look like Shakira.</p>
+
+	<div class="col-md-8">
+		<h2>Create Private Wikis</h2>
+		<p>Manage private wikis.</p>
+		<p><%= link_to "Upgrade Account", new_charge_path, class: 'btn btn-primary' %>
 	</div>
 </div>

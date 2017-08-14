@@ -1,7 +1,4 @@
 class WikisController < ApplicationController
-  include WikisHelper
-  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
-  
   def index
     @wikis = Wiki.all
   end
@@ -42,6 +39,7 @@ class WikisController < ApplicationController
 
   def new
     @wiki = Wiki.new
+    authorize @wiki
   end
 
   def create

@@ -1,21 +1,20 @@
 Rails.application.routes.draw do
-  
-	devise_for :user, controllers: { sessions: 'user/sessions' }
   resources :wikis
+	devise_for :users
 
-  resources :users, only: [] do
-    resources :wikis
-  end
+  get 'users/upgrade'
+
+  resources :users do
+    collection do
+      get "upgrade"
+    end
   
-  # authenticated :user do
-  #   root 'wikis#index', as: :authenticated
-  # end
+    post "change_role"
+    post 'to_standard'
+  end
 
   resources :charges, only: [:new, :create]
-  get '/charges/downgrade' => 'charges#downgrade', as: :downgrade
-  post '/to_standard' => 'charges#to_standard', as: :to_standard
 
-
-  get 'about' => 'welcome#about'
+  get 'welcome/index'
 	root to: "welcome#index"
 end
