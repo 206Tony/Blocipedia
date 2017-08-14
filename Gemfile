@@ -49,7 +49,7 @@
 
  gem 'pundit'
 
- gem 'faker'
+ gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
  
  group :development do
    gem 'listen', '~> 3.1.5'
@@ -60,5 +60,6 @@
   gem 'rspec-rails', '~> 3.6.0'
   gem 'rails-controller-testing'
   gem 'shoulda'
+  gem 'faker'
   gem 'factory_girl_rails', '~> 4.8.0'
  end

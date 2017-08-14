@@ -1,28 +1,26 @@
 class WikiPolicy < ApplicationPolicy
-  attr_reader :user, :wiki
-     
+     attr_reader :user, :wiki
+
      def initialize(user, wiki)
-         @user = user
-         @wiki = wiki
-     end
+        @user = user
+        @wiki = wiki
+    end
+
+    def create?
+        user.premium? || user.admin?
+    end
+    
+    def update?
+        if wiki.private == true
+            user.premium? || user.admin?
+        else
+            user.present?
+        end
+    end
      
-     def create?
-         user.admin? || user.premium?
-     end
-     
-     def new?
-         create?
-     end
-     
-     def update?
-         user.present?
-     end
-     
-     def edit?
-         update?
-     end
-     
-     def destroy?
-         user.admin? || (@wiki.user == user)
-     end
- end 
+    def delete?
+        if wiki.private == true
+            user.premium? || user.admin?
+        end  #user == @wiki.
+    end
+end 

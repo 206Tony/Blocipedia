@@ -1,51 +1,49 @@
-require 'random_data'
+#require 'random_data'
+include Faker
+
 
 5.times do
-	User.create!(
-		email: RandomData.random_email,
-		password: "password",
-    standard: true,
-    premium: false,
-    admin: false
+	users = User.create!(
+		#name: Faker::Name.name,
+		email: Faker::Internet.email,
+    password: "password"
+
 		)
-	#user.save!
+  
 end
+users = User.all 
 
-3.times do
-  User.create!(
-    email: RandomData.random_email,
-    password: "password",
-    standard: false,
-    premium: true,
-    admin: false
-    )
-end
-
-2.times do
-  User.create!(
-    email: RandomData.random_email,
-    password: "password",
-    standard: false,
-    premium: false,
-    admin: true
-    )
-end
-users = User.all
-
-50.times do
+20.times do
   wiki = Wiki.create!(
-      title: RandomData.random_sentence,
-      body: RandomData.random_paragraph,
-      private: false,
-      #user: User.last
+    user: users.sample,
+    title: Faker::Lorem.sentence,
+    body: Faker::Lorem.paragraph  
   )
-
-  wiki.update_attribute(:created_at, rand(10.minutes .. 1.year).ago)
+  #wikis.update_attribute(:created_at, rand(10.minutes .. 1.year).ago)
 end
-wiki = Wiki.all
+wikis = Wiki.all
 
+admin = User.create!(
+  #name: 'admin user',
+  email: 'ant1@bloc.com',
+  password: 'password',
+  role: 'admin'
+)
 
+premium = User.create!(
+  #name: 'premium user',
+  email: 'premium@bloc.com',
+  password: 'password',
+  role: 'premium'
+)
+
+# standard = User.create!(
+#   name: 'standard user'
+#   email: 'standard@bloc.com'#,
+#   # password: 'password',
+#   # role: 'standard'
+# )
 
 puts "Seed finished"
-puts "#{users.count} users created"
+puts "#{User.count} users created"
 puts "#{Wiki.count} wikis created"
