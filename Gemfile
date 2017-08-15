@@ -49,6 +49,8 @@
 
  gem 'pundit'
 
+ gem 'redcarpet'
+
  gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
  
  group :development do
