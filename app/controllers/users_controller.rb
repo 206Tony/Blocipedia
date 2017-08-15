@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  
   def upgrade
     @user = current_user
   end
@@ -9,10 +10,10 @@ class UsersController < ApplicationController
     if @user.admin? == 'admin'
 	  flash[:error] = "User is an admin. No update."
 	elsif @user.standard?
-	  go_premium
+	  @user.update_attribute(:role, 'premium')
 	  flash[:notice] = "User switched from standard to premium."
 	else
-	  to_standard
+	  @user.update_attribute(:role, 'standard')
 	  flash[:notice] = "User switched from premium to standard."
 	end
 	  redirect_to root_path

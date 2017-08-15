@@ -15,7 +15,6 @@ class ApplicationPolicy
   end
 
   def initialize(user, record)
-    #raise Pundit::NotAuthorizedError, "must be logged in" unless user
     @user = user
     @record = record
   end
@@ -25,7 +24,7 @@ class ApplicationPolicy
   end
 
   def show?
-    record.exists?
+    scope.where(:id => record.id).exists?
   end
 
   def create?
@@ -56,10 +55,6 @@ class ApplicationPolicy
     return false if record.user.nil?
     return false unless user.present?
     record.user == user
-  end
-
-  def record_exists?
-    scope.where(:id => record.id).exists?
   end
 
   def user_is?(*roles)

@@ -4,10 +4,14 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_many :wikis, dependent: :destroy
+  has_many :wikis
 
-  before_save { self.email = email.downcase }
-  before_save { self.role ||= :standard }
+  after_initialize :set_role
+
+
+  def set_role 
+  	self.role ||= :standard 
+  end
   
   enum role: [:standard, :premium, :admin]
 

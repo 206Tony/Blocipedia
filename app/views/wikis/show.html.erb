@@ -1,16 +1,17 @@
-<div class="media">
-	<div class="media-body">
-    	<div class="media-heading">
-			<h1><%= @wiki.title %></h1>
-		</div>
-		<p><%= @wiki.body %></p>
-	      <% if policy(@wiki).edit? %>
+<h1>Wiki</h1>
+  <%= link_to "Back to Wikis", wikis_path %>
 
-		  <%= link_to "Edit", edit_wiki_path(@wiki.id), class: 'btn btn-success' %>
-		  <% end %>
+  <% if policy(Wiki.new).show? %>
+    <h1><%= @wiki.title %></h1>
+    <p><%= @wiki.body %></p>
+    <small>
+  	  <i> Written by: <%= @wiki.user.email %></i>
+    </small>
+  <% end %> 
+
+    <br> 
 		  
-		  <% if policy(@wiki).destroy? %>
-		  	<%= link_to "Delete Wiki", (@wiki), method: :delete, class: 'btn btn-danger', data: {confirm: 'Are you sure you want to delete this wiki?'} %>
-		  <% end %>
-	</div>
-</div>
+  <% if policy(Wiki.new).update? %>
+    <%= link_to "Edit", edit_wiki_path(@wiki.id), class: 'btn btn-success' %>
+    <%= link_to "Delete Wiki", [@wiki], method: :delete, class: 'btn btn-danger', data: {confirm: 'Are you sure you want to delete this wiki?'} %>
+  <% end %>

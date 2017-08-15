@@ -1,4 +1,4 @@
 <h1>Upgrade your account today!</h1>
 	<p>Current Role: <%= current_user.role %> </p>
 
-<p>Click here to toggle your role. <%= button_to "Toggle", user_toggle_role_path(current_user), method: :post, class: 'btn btn-success' %></p>
+<p>Click here to change your role. <%= button_to "change", user_change_role_path(current_user), method: :post, class: 'btn btn-success' %></p>

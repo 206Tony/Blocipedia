@@ -3,7 +3,7 @@ class ChargesController < ApplicationController
   def new
 	@stripe_btn_data = {
 		key: "#{ Rails.configuration.stripe[:publishable_key] }",
-		description: "Premium Membership - #{current_user.email}", 
+		description: "Premium Membership", 
 		amount: 15_00
 	}
   end
@@ -24,7 +24,7 @@ class ChargesController < ApplicationController
 		currency: 'usd'
 	)
 
-	current_user.update_attribute(:role, "premium")
+	current_user.update_attributes!(role: "premium")
 
 	flash[:notice] = "Your payment has been recieved. #{current_user.email} are now a premium member!"
 	redirect_to root_path
