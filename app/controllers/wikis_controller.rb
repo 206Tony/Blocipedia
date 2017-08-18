@@ -1,26 +1,24 @@
 class WikisController < ApplicationController
   def index
     @wikis = policy_scope(Wiki)
-    authorize @wikis
   end
 
   def show
     @wiki = Wiki.find(params[:id])
-    authorize @wiki
+    @collaborators = @wiki.users
   end
 
   def new
     @wiki = Wiki.new
-    authorize @wiki
   end
 
   def create
-    @wiki = current_user.wikis.build(params.require(:wiki).permit(:title, :body, :private))
-    authorize @wiki
+    @wiki = Wiki.new(wiki_params)
+    @wiki_user = current_user
 
     if @wiki.save
       flash[:notice] = "Wiki was saved."
-      redirect_to @wiki
+      redirect_to wiki_path(@wiki)
     else
       flash[:error] = "There was a error saving your wiki. Please try again."
       render :new
@@ -36,9 +34,9 @@ class WikisController < ApplicationController
     @wiki = Wiki.find(params[:id])
     authorize @wiki
 
-    if @wiki.update_attributes(params.require(:wiki).permit(:title, :body, :private))
+    if @wiki.update_attributes(wiki_params)
       flash[:notice] = "Wiki was updated."
-      redirect_to @wiki
+      redirect_to wiki_path(@wiki) 
     else
       flash.now[:alert] = "There was an error saving your wiki. Please try again."
       render :edit
@@ -47,24 +45,20 @@ class WikisController < ApplicationController
 
   def destroy
     @wiki = Wiki.find(params[:id])  
-    authorize @wiki unless current_user.role != 'admin' || current_user.role != 'premium'
+    authorize @wiki 
 
     if @wiki.destroy
       flash[:notice] = "\"#{@wiki.title}\" was deleted successfully."
-      redirect_to @wiki
+      redirect_to wikis_path
     else
       flash[:error] = "There was an error deleting your wiki."
       render :show
     end
   end
-    private
 
-  def user_not_authorized
-    flash[:alert] = "You are not worthy."
-    redirect_to root_path
-  end
+  private
 
   def wiki_params
-    params.require(:wiki).permit(:title, :body, :private)
+    params.require(:wiki).permit(:title, :body, :private, user_ids:[])
   end
 end

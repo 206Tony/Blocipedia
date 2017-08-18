@@ -1,26 +1,13 @@
 class ApplicationPolicy
   attr_reader :user, :record
 
-  class Scope
-    attr_reader :user, :scope
-
-    def initialize(user, scope)
-      @user = user
-      @scope = scope
-    end
-
-    def resolve
-      scope.all
-    end
-  end
-
   def initialize(user, record)
     @user = user
     @record = record
   end
 
   def index?
-    true
+    false
   end
 
   def show?
@@ -44,21 +31,25 @@ class ApplicationPolicy
   end
 
   def destroy?
-    record_owned_by_user? || user_is?('admin')
+    update?
   end
 
   def scope
-    record.class
+    Pundit.policy_scope!(user, record.class)
   end
 
-  def record_owned_by_user?
-    return false if record.user.nil?
-    return false unless user.present?
-    record.user == user
-  end
 
-  def user_is?(*roles)
-    user.present? && roles.any? { |role| user.send(:"#{role}?") }
+  class Scope
+    attr_reader :user, :scope
+
+    def initialize(user, scope)
+      @user = user
+      @scope = scope
+    end
+
+    def resolve
+      scope
+    end
   end
 
 end

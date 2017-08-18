@@ -1,32 +1,7 @@
-<h1>Edit Wiki</h1>
-  <div class="row">
-    <div class="col-md-4">
-      <p>Wiki rules</p>
-        <ul>
-          <li>Be Nice</li>
-          <li>Make wikis that are awesome</li>
-        </ul>
-    </div>
+<%= link_to "Back to Wikis", @wikis %>
+<div class="container">
+  <h1>Edit</h1>
     <div class="col-md-8">
-      <%= form_for @wiki do |f| %>
-        <div class="form-group">
-          <%= f.label :title %>
-          <%= f.text_field :title, class: 'form-control', placeholder: "Enter wiki title" %>
-        </div>
-        <div class="form-group">
-          <%= f.label :body %>
-          <%= f.text_area :body, rows: 8, class: 'form-control', placeholder: 'Enter wiki body' %>
-        </div>
-        <div class="col-md-8">
-        <% if current_user.admin? || current_user.premium? %>
-          <div class="form-group">
-            <%= f.label :private, class: 'checkbox' do %>
-              <%= f.check_box :private %> Private wiki
-            <% end %>
-          </div>
-        <% end %>
-        </div>
-      <%= f.submit "Save", class: 'btn btn-success' %> 
-      <% end %>
+      <%= render partial: 'form', locals: { wiki: @wiki, user: @user, collaborators: @collaborators } %>
     </div>
-  </div>
+</div>

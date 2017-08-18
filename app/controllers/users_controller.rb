@@ -1,32 +1,16 @@
 class UsersController < ApplicationController
-  
-  def upgrade
-    @user = current_user
-  end
 
-  def change_role
-    @user = current_user
- 
-    if @user.admin? == 'admin'
-	  flash[:error] = "User is an admin. No update."
-	elsif @user.standard?
-	  @user.update_attribute(:role, 'premium')
-	  flash[:notice] = "User switched from standard to premium."
-	else
-	  @user.update_attribute(:role, 'standard')
-	  flash[:notice] = "User switched from premium to standard."
-	end
-	  redirect_to root_path
+  def show
+    @stripe_btn_data = {
+    key: "#{ Rails.configuration.stripe[:publishable_key] }",
+    description: "Premium Membership", 
+    amount: 15_00
+  }
   end
  
-  def go_premium
-    @user = current_user
-    @user.update_attribute(:role, 'premium')
-  end
- 
-  def to_standard
-  @user = current_user
-	@user.update_attribute(:role, 'standard')
-	redirect_to edit_user_registration_path
+  def publicize_wiki
+    current_user.downgrade_account
+  	current_user.private_wikis(current_user).update_all(private:false)
+  	redirect_to user_path(current_user)
   end
 end

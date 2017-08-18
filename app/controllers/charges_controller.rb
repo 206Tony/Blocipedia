@@ -24,14 +24,15 @@ class ChargesController < ApplicationController
 		currency: 'usd'
 	)
 
-	current_user.update_attributes!(role: "premium")
+	if charge.paid == true
+		current_user.upgrade_account
 
-	flash[:notice] = "Your payment has been recieved. #{current_user.email} are now a premium member!"
-	redirect_to root_path
+		flash[:notice] = "Your payment has been recieved. #{current_user.email} are now a premium member!"
+		redirect_to user_path(current_user)
+	end
 
   rescue Stripe::CardError => e 
 	flash[:alert] = e.message
 	redirect_to new_charge_path
   end
-
 end

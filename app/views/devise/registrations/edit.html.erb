@@ -32,18 +32,8 @@
   </div>
 
   <div class="actions">
-    <%= f.submit "Update" %>
+    <%= f.submit "Update", class: 'btn btn-success' %>
   </div>
-<% end %>
-
-<br/>
-
-<% if resource.role == 'premium' %>
-  <h3>Cancel premium account?</h3>
-
-<p><%= button_to "Downgrade Account", user_to_standard_path(resource), data: { confirm: "Are you sure?" }, method: :post, class: 'btn btn-success' %></p>
-<% else %>
-  <p> <%=link_to "Upgrade Account", new_charge_path %></p>
 <% end %>
 
   <h3>Cancel my account</h3>

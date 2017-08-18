@@ -1,0 +1,24 @@
+<h3>Change Account Type</h3>
+
+<% if current_user.standard? %>
+  
+  <%= form_tag charges_path do %>
+    <h4>Upgrade to Premium</h4>
+    	<script class="stripe-button" 
+              src="https://checkout.stripe.com/checkout.js" data-key="<%= @stripe_btn_data[:key] %>" 
+              data-amount="<%= @stripe_btn_data[:amount] %>" 
+							data-description="<%= @stripe_btn_data[:description]%>">
+			</script>
+    <% end %>
+
+<% elsif current_user.premium? %>
+
+  <%= link_to "Downgrade to standard account",
+    user_publicize_wiki_path, data: { confirm: 'Are you sure? Doing so will make all your wikis accessible to anyone.' }, method: :post, class: 'btn btn-danger'%>
+
+<% else %>
+  <p>
+    admin?
+  </p>
+<% end %>
+

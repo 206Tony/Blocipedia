@@ -1,17 +1,13 @@
 Rails.application.routes.draw do
+  devise_for :users 
+
   resources :wikis
-	devise_for :users
 
-  get 'users/upgrade'
+  get 'users/show'
 
-  resources :users do
-    collection do
-      get "upgrade"
+  resources :users, only: [:show, :index] do
+    post 'publicize_wiki' => 'users#publicize_wiki', as: :publicize_wiki
     end
-  
-    post "change_role"
-    post 'to_standard'
-  end
 
   resources :charges, only: [:new, :create]
 
